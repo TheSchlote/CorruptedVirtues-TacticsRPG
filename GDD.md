@@ -99,7 +99,7 @@ The current focus is on developing core gameplay before finalizing specific char
 ---
 
 ## 8. Development Timeline
-A detailed breakdown of tasks and milestones can be found on the [GitHub Projects Page](https://github.com/TheSchlote/CorruptedVirtues-TacticsRPG/projects).  
+A detailed breakdown of tasks and milestones can be found on the [GitHub Projects Page](https://github.com/users/TheSchlote/projects/4).  
 
 ---
 
