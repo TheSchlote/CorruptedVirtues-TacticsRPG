@@ -1,7 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://bkt0uby72ole7"]
+[gd_scene load_steps=3 format=3 uid="uid://bkt0uby72ole7"]
 
+[ext_resource type="Script" path="res://Game/Units/Unit.cs" id="1_7ovr0"]
 [ext_resource type="PackedScene" uid="uid://38pmxoqb2d13" path="res://Assets/Imported Assets/KayKit_Prototype_Bits_1.0_EXTRA/Character/Dummy.glb" id="1_jckhf"]
 
 [node name="Node3D" type="Node3D"]
+script = ExtResource("1_7ovr0")
 
 [node name="Dummy" parent="." instance=ExtResource("1_jckhf")]
