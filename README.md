@@ -29,4 +29,4 @@ For an in-depth breakdown of game mechanics, story, and development plans, see t
 
 ## Project Management
 Development is tracked via GitHub Projects.  
-**Check out the project board here:** [Corrupted Virtues - Development Roadmap](https://github.com/TheSchlote/CorruptedVirtues-TacticsRPG/projects/1)
+**Check out the project board here:** [Corrupted Virtues - Development Roadmap](https://github.com/users/TheSchlote/projects/4)
