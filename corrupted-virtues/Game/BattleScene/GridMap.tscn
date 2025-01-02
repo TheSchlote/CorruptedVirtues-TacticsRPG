@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://c6bg2msegvcrk"]
+
+[ext_resource type="MeshLibrary" uid="uid://kduk1la6jjxf" path="res://Assets/PrimitiveMeshLibrary.tres" id="1_psvyv"]
+
+[node name="GridMap" type="GridMap"]
+mesh_library = ExtResource("1_psvyv")
+cell_size = Vector3(1, 1, 1)
