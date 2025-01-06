@@ -1,0 +1,19 @@
+[gd_scene load_steps=6 format=3 uid="uid://b3mh43y1mhl8p"]
+
+[ext_resource type="PackedScene" uid="uid://cncb2l120qja5" path="res://Assets/Imported Assets/KayKit_Prototype_Bits_1.0_EXTRA/Assets/gltf/Cube_Prototype_Small.gltf" id="1_gqhr1"]
+[ext_resource type="PackedScene" uid="uid://b2gbvsiqmnot8" path="res://Assets/Imported Assets/KayKit_Prototype_Bits_1.0_EXTRA/Assets/gltf/Pallet_Small.gltf" id="2_pdb11"]
+[ext_resource type="PackedScene" uid="uid://7tiblnt0kc05" path="res://Assets/Imported Assets/KayKit_Prototype_Bits_1.0_EXTRA/Assets/gltf/Pallet_Small_Decorated_A.gltf" id="3_jfeh8"]
+[ext_resource type="PackedScene" uid="uid://mobbpjgdpcp4" path="res://Assets/Imported Assets/KayKit_Prototype_Bits_1.0_EXTRA/Assets/gltf/Primitive_Cube_Small.gltf" id="4_jglk0"]
+[ext_resource type="PackedScene" uid="uid://b7nnmrxsik0ur" path="res://Assets/Imported Assets/KayKit_Prototype_Bits_1.0_EXTRA/Assets/gltf/Dummy_Base.gltf" id="5_8uryo"]
+
+[node name="Control" type="Node3D"]
+
+[node name="Cube_Prototype_Small2" parent="." instance=ExtResource("1_gqhr1")]
+
+[node name="Pallet_Small2" parent="." instance=ExtResource("2_pdb11")]
+
+[node name="Pallet_Small_Decorated_A2" parent="." instance=ExtResource("3_jfeh8")]
+
+[node name="Primitive_Cube_Small2" parent="." instance=ExtResource("4_jglk0")]
+
+[node name="Dummy_Base2" parent="." instance=ExtResource("5_8uryo")]
