@@ -1,9 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://62tuo4jvmt63"]
+[gd_scene load_steps=5 format=3 uid="uid://62tuo4jvmt63"]
 
 [ext_resource type="MeshLibrary" uid="uid://dpunokuj0o1ve" path="res://Assets/PrototypeAssets.tres" id="1_slljo"]
+[ext_resource type="Script" path="res://Game/BattleScene/BattleManager.cs" id="1_uy4rj"]
 [ext_resource type="Script" path="res://Game/BattleScene/AstarPathfinding.cs" id="2_bs1bi"]
+[ext_resource type="PackedScene" uid="uid://bkt0uby72ole7" path="res://Game/Units/Unit.tscn" id="3_hqbtg"]
 
 [node name="BattleMap" type="Node3D"]
+script = ExtResource("1_uy4rj")
+UnitScene = ExtResource("3_hqbtg")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 5, 10, 15)

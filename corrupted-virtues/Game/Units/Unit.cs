@@ -8,36 +8,55 @@ public partial class Unit : Node3D
 
     public async Task MoveTo(Vector3 destination, AstarPathfinding pathfinding)
     {
-        Vector3[] path = pathfinding.GetPath(Position - new Vector3(0, CELL_SIZE, 0), destination - new Vector3(0, CELL_SIZE, 0));
+        Vector3I currentCell = pathfinding.LocalToMap(Position);
+        pathfinding.MarkCellAsUnoccupied(currentCell);
+
+        Vector3[] path = pathfinding.GetPath(Position, destination);
 
         if (path.Length == 0)
         {
-            GD.Print("Invalid path.");
+            GD.Print("Invalid path. Restoring occupancy of current cell.");
+            pathfinding.MarkCellAsOccupied(currentCell); // Restore the original cell if pathfinding fails
             return;
         }
 
         await Move(path);
+
+        Vector3I destinationCell = pathfinding.LocalToMap(Position);
+        pathfinding.MarkCellAsOccupied(destinationCell);
     }
+
+    //public async Task MoveTo(Vector3 destination, AstarPathfinding pathfinding)
+    //{
+    //    Vector3[] path = pathfinding.GetPath(Position, destination);
+
+    //    if (path.Length == 0)
+    //    {
+    //        GD.Print("Invalid path.");
+    //        return;
+    //    }
+
+    //    await Move(path);
+    //}
 
     public async Task Move(Vector3[] path)
     {
         foreach (Vector3 targetPosition in path)
         {
-            Vector3 adjustedTargetPosition = targetPosition + new Vector3(0, CELL_SIZE, 0); // Keep above floor
             Vector3 startPosition = Position;
-            float distance = startPosition.DistanceTo(adjustedTargetPosition);
+            float distance = startPosition.DistanceTo(targetPosition);
             float moveTime = distance / (CELLS_PER_SECOND * CELL_SIZE);
             float elapsed = 0f;
 
             while (elapsed < moveTime)
             {
                 float t = elapsed / moveTime;
-                Position = startPosition.Lerp(adjustedTargetPosition, t);
+                Position = startPosition.Lerp(targetPosition, t);
                 elapsed += 0.025f;
                 await Task.Delay(25);
             }
 
-            Position = adjustedTargetPosition;
+            Position = targetPosition;
         }
     }
 }

@@ -1,11 +1,14 @@
 using Godot;
+using System.Collections.Generic;
 using System.Linq;
 
 public partial class AstarPathfinding : Node3D
 {
-    private const int CELL_SIZE = 2;
-    public AStar3D astar = new AStar3D();
+    private const int CellSize = 2;
+    private AStar3D _astar = new AStar3D();
+    private HashSet<Vector3I> _occupiedCells = new HashSet<Vector3I>();
     private const float SPHERE_HEIGHT_OFFSET = 3f;
+
     public void VisualizePath(Vector3[] path, Node3D parent)
     {
         ImmediateMesh lineMesh = new ImmediateMesh();
@@ -88,6 +91,40 @@ public partial class AstarPathfinding : Node3D
         lineMesh.SurfaceAddVertex(to + new Vector3(0, SPHERE_HEIGHT_OFFSET, 0));
         lineMesh.SurfaceEnd();
     }
+
+
+    public void MarkCellAsOccupied(Vector3I cell)
+    {
+        _occupiedCells.Add(cell);
+        RefreshCellConnections(cell);
+    }
+
+    public void MarkCellAsUnoccupied(Vector3I cell)
+    {
+        _occupiedCells.Remove(cell);
+        RefreshCellConnections(cell);
+    }
+    public bool IsCellOccupied(Vector3I cell)
+    {
+        return _occupiedCells.Contains(cell);
+    }
+    private void RefreshCellConnections(Vector3I cell)
+    {
+        int cellId = GetCellIdFromPosition(cell);
+
+        // Remove existing point if it exists
+        if (_astar.HasPoint(cellId))
+        {
+            _astar.RemovePoint(cellId);
+        }
+
+        // Re-add the point if it is walkable and not occupied
+        if (IsWalkableCell(cell, GetNode<GridMap>("Map")))
+        {
+            AddCellToAStar(cell, GetNode<GridMap>("Map"));
+            ConnectWalkableCells(GetNode<GridMap>("Map"));
+        }
+    }
     public override void _Ready()
     {
         GD.Print("AstarPathfinding: Initializing...");
@@ -101,13 +138,11 @@ public partial class AstarPathfinding : Node3D
         }
 
         SetupGridMap(gridMap);
-        // Visualize neighbors
-        VisualizeNeighbors(gridMap, astar, this);
     }
 
     public void SetupGridMap(GridMap gridMap)
     {
-        astar.Clear();
+        _astar.Clear();
 
         foreach (Vector3I cell in gridMap.GetUsedCells())
         {
@@ -125,13 +160,13 @@ public partial class AstarPathfinding : Node3D
         int startId = GetCellIdFromPosition(LocalToMap(start));
         int endId = GetCellIdFromPosition(LocalToMap(end));
 
-        if (!astar.HasPoint(startId) || !astar.HasPoint(endId))
+        if (!_astar.HasPoint(startId) || !_astar.HasPoint(endId))
         {
             GD.PrintErr($"Invalid path request. Start: {start}, End: {end}");
             return System.Array.Empty<Vector3>();
         }
 
-        return astar.GetPointPath(startId, endId).ToArray();
+        return _astar.GetPointPath(startId, endId).ToArray();
     }
 
     private void AddCellToAStar(Vector3I cell, GridMap gridMap)
@@ -139,12 +174,12 @@ public partial class AstarPathfinding : Node3D
         int cellId = GetCellIdFromPosition(cell);
         Vector3 localPosition = gridMap.MapToLocal(cell);
         Vector3 worldPosition = gridMap.GlobalTransform.Origin + localPosition;
-        astar.AddPoint(cellId, worldPosition, 1);
+        _astar.AddPoint(cellId, worldPosition, 1);
     }
 
     private void ConnectWalkableCells(GridMap gridMap)
     {
-        foreach (int cellId in astar.GetPointIds())
+        foreach (int cellId in _astar.GetPointIds())
         {
             ConnectCellNeighbors(cellId, gridMap);
         }
@@ -180,16 +215,18 @@ public partial class AstarPathfinding : Node3D
     {
         int fromId = GetCellIdFromPosition(from);
         int toId = GetCellIdFromPosition(to);
-        if (astar.HasPoint(toId))
+        if (_astar.HasPoint(toId))
         {
-            astar.ConnectPoints(fromId, toId, true);
+            _astar.ConnectPoints(fromId, toId, true);
         }
     }
 
     public bool IsWalkableCell(Vector3I cell, GridMap gridMap)
     {
         int tileId = gridMap.GetCellItem(cell);
-        return tileId == GetMeshLibraryItemIdByName(gridMap, "Walkable");
+        bool isWalkableTile = tileId == GetMeshLibraryItemIdByName(gridMap, "Walkable");
+        return isWalkableTile && !_occupiedCells.Contains(cell);
+
     }
 
     private int GetMeshLibraryItemIdByName(GridMap gridMap, string name)
@@ -217,8 +254,8 @@ public partial class AstarPathfinding : Node3D
         return new Vector3I(x, y, z);
     }
 
-    private Vector3I LocalToMap(Vector3 position)
+    public Vector3I LocalToMap(Vector3 position)
     {
-        return new Vector3I((int)position.X / CELL_SIZE, (int)position.Y / CELL_SIZE, (int)position.Z / CELL_SIZE);
+        return new Vector3I((int)position.X / CellSize, (int)position.Y / CellSize, (int)position.Z / CellSize);
     }
 }
