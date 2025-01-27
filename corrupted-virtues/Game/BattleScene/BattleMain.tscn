@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://c181njyok4jux"]
+
+[ext_resource type="Script" path="res://Game/BattleScene/BattleManager.cs" id="1_wuewh"]
+[ext_resource type="PackedScene" uid="uid://bkt0uby72ole7" path="res://Game/Units/Unit.tscn" id="2_cwts1"]
+[ext_resource type="PackedScene" uid="uid://62tuo4jvmt63" path="res://Game/BattleScene/BattleMap.tscn" id="3_2igbi"]
+[ext_resource type="Script" path="res://Game/BattleScene/AstarPathfinding.cs" id="3_3rw1i"]
+
+[node name="BattleManager" type="Node3D"]
+script = ExtResource("1_wuewh")
+UnitScene = ExtResource("2_cwts1")
+BattleMap = ExtResource("3_2igbi")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 5, 10, 15)
+current = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 5, 10, 15)
+
+[node name="PathFinding" type="Node3D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_3rw1i")

@@ -125,20 +125,6 @@ public partial class AstarPathfinding : Node3D
             ConnectWalkableCells(GetNode<GridMap>("Map"));
         }
     }
-    public override void _Ready()
-    {
-        GD.Print("AstarPathfinding: Initializing...");
-
-        // Load and set up the GridMap
-        GridMap gridMap = GetNode<GridMap>("Map");
-        if (gridMap == null)
-        {
-            GD.PrintErr("GridMap 'Map' not found. Please ensure it's in the scene.");
-            return;
-        }
-
-        SetupGridMap(gridMap);
-    }
 
     public void SetupGridMap(GridMap gridMap)
     {

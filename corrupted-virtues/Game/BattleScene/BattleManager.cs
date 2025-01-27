@@ -4,13 +4,22 @@ using System;
 public partial class BattleManager : Node3D
 {
     [Export] private PackedScene UnitScene;
+    [Export] public PackedScene BattleMap;
 
     private GridMap gridMap;
     private AstarPathfinding astar;
     public override void _Ready()
     {
         astar = GetNode<AstarPathfinding>("PathFinding");
-        gridMap = astar.GetNode<GridMap>("Map");
+
+        gridMap = BattleMap.Instantiate<GridMap>();
+        gridMap.Name = "Map";
+        astar.AddChild(gridMap);
+        astar.SetupGridMap(gridMap);
+
+        ///TEMP
+        //Get spawn position from gridmap
+        SpawnUnit(gridMap.GetNode<Node3D>("SpawnPoint").Position);
     }
     public Unit SpawnUnit(Vector3 spawnPosition)
     {
