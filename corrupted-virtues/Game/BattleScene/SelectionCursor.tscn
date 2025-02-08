@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://bfr7khnmspwj7"]
+
+[ext_resource type="Script" path="res://Game/BattleScene/SelectionCursor.cs" id="1_o7822"]
+[ext_resource type="PackedScene" uid="uid://0gfxfe31xv1q" path="res://Game/BattleScene/Camera/Gimbal.tscn" id="2_cy41m"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_fnf7y"]
+
+[node name="SelectionCursor" type="Node3D" node_paths=PackedStringArray("CameraGimbal")]
+script = ExtResource("1_o7822")
+CameraGimbal = NodePath("Gimbal")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+mesh = SubResource("TorusMesh_fnf7y")
+
+[node name="Gimbal" parent="." instance=ExtResource("2_cy41m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)

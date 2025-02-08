@@ -12,29 +12,29 @@ namespace CorruptedVirtues.Tests.GDUnitTests
         private GridMap gridMap;
         private AstarPathfinding astar;
         private Unit unit;
-        private Node3D battleMapRoot;
+        private Node3D battleManagerRoot;
 
 
         [BeforeTest]
         public void Setup()
         {
-            battleMapRoot = GD.Load<PackedScene>("res://Game/BattleScene/BattleMap.tscn").Instantiate<Node3D>();
-            astar = battleMapRoot.GetNode<AstarPathfinding>("PathFinding");
+            battleManagerRoot = GD.Load<PackedScene>("res://Game/BattleScene/BattleMain.tscn").Instantiate<Node3D>();
+            astar = battleManagerRoot.GetNode<AstarPathfinding>("PathFinding");
             gridMap = astar.GetNode<GridMap>("Map");
-            unit = GD.Load<PackedScene>("res://Game/Units/Unit.tscn").Instantiate<Unit>();
-            Node3D? unitsNode = battleMapRoot.GetNode<Node3D>("Units");
-            unitsNode.AddChild(unit);
-            unit.Position = new Vector3(0, 0, 0);
-            SceneTree? tree = Engine.GetMainLoop() as SceneTree;
-            tree?.Root.AddChild(battleMapRoot);
-            astar.SetupGridMap(gridMap);           // Setup the grid for pathfinding
+            //unit = GD.Load<PackedScene>("res://Game/Units/Unit.tscn").Instantiate<Unit>();
+            //Node3D? unitsNode = battleManagerRoot.GetNode<Node3D>("Units");
+            //unitsNode.AddChild(unit);
+            //unit.Position = new Vector3(0, 0, 0);
+            //SceneTree? tree = Engine.GetMainLoop() as SceneTree;
+            //tree?.Root.AddChild(battleManagerRoot);
+            //astar.SetupGridMap(gridMap);           // Setup the grid for pathfinding
         }
         [AfterTest]
         public void TearDownTest()
         {
-            if (battleMapRoot != null && battleMapRoot.IsInsideTree())
+            if (battleManagerRoot != null && battleManagerRoot.IsInsideTree())
             {
-                battleMapRoot.QueueFree();  // Free the root and all children
+                battleManagerRoot.QueueFree();  // Free the root and all children
             }
         }
 
@@ -143,7 +143,7 @@ namespace CorruptedVirtues.Tests.GDUnitTests
         public void SpawnUnit_OnValidCell_Success()
         {
             // Arrange
-            BattleManager battleManager = (BattleManager)battleMapRoot;
+            BattleManager battleManager = (BattleManager)battleManagerRoot;
             Vector3 spawnPosition = new Vector3(8, 0, 8);
 
             // Act
@@ -159,7 +159,7 @@ namespace CorruptedVirtues.Tests.GDUnitTests
         public void SpawnUnit_OnInvalidCell_Fails()
         {
             // Arrange
-            BattleManager battleManager = (BattleManager)battleMapRoot;
+            BattleManager battleManager = (BattleManager)battleManagerRoot;
             Vector3 invalidSpawnPosition = new Vector3(-10, 0, -10); // Non-walkable
 
             // Act
@@ -185,7 +185,7 @@ namespace CorruptedVirtues.Tests.GDUnitTests
         public async Task Unit_CanPathfindOutOfOccupiedStartingCell()
         {
             // Arrange
-            BattleManager battleManager = (BattleManager)battleMapRoot;
+            BattleManager battleManager = (BattleManager)battleManagerRoot;
             astar.SetupGridMap(gridMap);
 
             // Spawn a unit in an unwalkable spot
@@ -219,7 +219,7 @@ namespace CorruptedVirtues.Tests.GDUnitTests
         public async Task Unit_PathfindsAroundOtherUnit()
         {
             // Arrange
-            BattleManager battleManager = (BattleManager)battleMapRoot;
+            BattleManager battleManager = (BattleManager)battleManagerRoot;
             astar.SetupGridMap(gridMap);
 
             // Spawn the first unit at (0, 0, 0)
@@ -256,7 +256,7 @@ namespace CorruptedVirtues.Tests.GDUnitTests
         public async Task Unit_PathfindsAroundOtherUnits()
         {
             // Arrange
-            BattleManager battleManager = (BattleManager)battleMapRoot;
+            BattleManager battleManager = (BattleManager)battleManagerRoot;
             astar.SetupGridMap(gridMap);
 
             // Spawn the first unit at (0, 0, 0)
@@ -285,7 +285,7 @@ namespace CorruptedVirtues.Tests.GDUnitTests
 
             // Get the path and visualize it
             Vector3[] path = astar.GetPath(firstUnitPosition, targetPosition);
-            astar.VisualizePath(path, battleMapRoot);
+            astar.VisualizePath(path, battleManagerRoot);
 
             // Act
             await firstUnit.MoveTo(targetPosition, astar);
