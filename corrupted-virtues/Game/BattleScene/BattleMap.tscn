@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://62tuo4jvmt63"]
+[gd_scene load_steps=2 format=3 uid="uid://62tuo4jvmt63"]
 
 [ext_resource type="MeshLibrary" uid="uid://dpunokuj0o1ve" path="res://Assets/PrototypeAssets.tres" id="1_slljo"]
-[ext_resource type="PackedScene" uid="uid://bfr7khnmspwj7" path="res://Game/BattleScene/SelectionCursor.tscn" id="2_renh0"]
 
 [node name="Map" type="GridMap"]
 mesh_library = ExtResource("1_slljo")
@@ -18,6 +17,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 4)
 
 [node name="SpawnPoint2" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 24)
-
-[node name="SelectionCursor" parent="." instance=ExtResource("2_renh0")]
-MoveSpeed = 10.0
