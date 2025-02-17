@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://c181njyok4jux"]
+[gd_scene load_steps=7 format=3 uid="uid://c181njyok4jux"]
 
 [ext_resource type="Script" path="res://Game/BattleScene/BattleManager.cs" id="1_wuewh"]
 [ext_resource type="PackedScene" uid="uid://bkt0uby72ole7" path="res://Game/Units/Unit.tscn" id="2_cwts1"]
 [ext_resource type="PackedScene" uid="uid://62tuo4jvmt63" path="res://Game/BattleScene/BattleMap.tscn" id="3_2igbi"]
 [ext_resource type="Script" path="res://Game/BattleScene/AstarPathfinding.cs" id="3_3rw1i"]
 [ext_resource type="PackedScene" uid="uid://bfr7khnmspwj7" path="res://Game/BattleScene/SelectionCursor.tscn" id="5_b0cmq"]
+[ext_resource type="Script" path="res://Game/BattleScene/BattleStates/BattleStateMachine.cs" id="6_g2ffg"]
 
 [node name="BattleManager" type="Node3D"]
 script = ExtResource("1_wuewh")
@@ -15,3 +16,6 @@ SelectionCursor = ExtResource("5_b0cmq")
 [node name="PathFinding" type="Node3D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("3_3rw1i")
+
+[node name="BattleStateMachine" type="Node" parent="."]
+script = ExtResource("6_g2ffg")

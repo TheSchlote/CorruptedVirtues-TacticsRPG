@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://bvmok8xkglaxr"]
+
+[node name="BattleUI" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TurnQueueContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0

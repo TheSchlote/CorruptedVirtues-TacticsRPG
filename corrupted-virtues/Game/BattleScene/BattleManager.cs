@@ -12,8 +12,14 @@ public partial class BattleManager : Node3D
     private SelectionCursor cursor;
     private Unit unit;
 
+    private BattleStateMachine stateMachine;
+    public TurnQueue turnQueue;
+
     public override void _Ready()
     {
+        stateMachine = GetNode<BattleStateMachine>("BattleStateMachine");
+        turnQueue = new TurnQueue();
+
         astar = GetNode<AstarPathfinding>("PathFinding");
 
         cursor = SelectionCursor.Instantiate<SelectionCursor>();
@@ -28,8 +34,8 @@ public partial class BattleManager : Node3D
         Vector3 spawnPosition = gridMap.GetNode<Node3D>("SpawnPoint").Position;
         unit = SpawnUnit(spawnPosition);
 
-        // Listen for movement input
-        //Input.MouseMode = Input.MouseModeEnum.Captured;
+        stateMachine.Initialize(this);
+        stateMachine.ChangeState(new StartState(this, stateMachine));
     }
 
     public Unit SpawnUnit(Vector3 spawnPosition)
@@ -61,7 +67,10 @@ public partial class BattleManager : Node3D
             MoveUnitToCursor();
         }
     }
-
+    public void NextTurn()
+    {
+        stateMachine.ChangeState(new NextTurnState(this, stateMachine));
+    }
     private async void MoveUnitToCursor()
     {
         if (unit == null || cursor == null || astar == null)
