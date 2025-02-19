@@ -6,23 +6,46 @@ public partial class Unit : Node3D
     private const float CELLS_PER_SECOND = 4f;
     private const float CELL_SIZE = 2f;
 
-    public string UnitName { get; private set; }
-    public int Health { get; private set; }
-    public int MaxHealth { get; private set; } = 100;
-    public int Speed { get; private set; } // Determines how often a unit acts
-    public float Initiative { get; private set; } // Tracks when a unit acts next
-    public Team Team { get; private set; }
+    [Export] public UnitStats Stats { get; set; } // Assignable in the editor
+    private Node3D _visualInstance; // Stores the visual model
+
+    public int Health { get;  set; }
+    public float Initiative { get; set; }
+    public Team Team { get; set; }
     public bool IsAlive => Health > 0;
 
     public event System.Action<Unit> OnTurnEnd; // Notifies FSM when turn is done
 
-    public void Initialize(string name, int speed, Team team)
+    public override void _Ready()
     {
-        UnitName = name;
-        Speed = speed;
-        Team = team;
-        Health = MaxHealth;
-        Initiative = 100f / Speed; // Higher speed = acts sooner
+        if (Stats == null)
+        {
+            GD.PrintErr("UnitStats not assigned!");
+            return;
+        }
+
+        Initialize();
+        LoadVisual();
+    }
+
+    private void Initialize()
+    {
+        Health = Stats.MaxHealth;
+        Initiative = 100f / Stats.Speed; // Higher speed = acts sooner
+    }
+
+    private void LoadVisual()
+    {
+        if (Stats.UnitVisual != null)
+        {
+            _visualInstance = Stats.UnitVisual.Instantiate<Node3D>();
+            _visualInstance.Position = new Vector3(0, 2, 0); //Appear on top of cubes
+            AddChild(_visualInstance);
+        }
+        else
+        {
+            GD.PrintErr($"No visual assigned for {Stats.UnitName} in UnitStats.");
+        }
     }
 
     public async Task MoveTo(Vector3 destination, AstarPathfinding pathfinding)
@@ -72,11 +95,11 @@ public partial class Unit : Node3D
         if (Health <= 0)
         {
             Health = 0;
-            GD.Print($"{UnitName} has been defeated!");
+            GD.Print($"{Stats.UnitName} has been defeated!");
         }
         else
         {
-            GD.Print($"{UnitName} took {damage} damage! Remaining HP: {Health}");
+            GD.Print($"{Stats.UnitName} took {damage} damage! Remaining HP: {Health}");
         }
     }
 
@@ -84,24 +107,24 @@ public partial class Unit : Node3D
     {
         if (!target.IsAlive)
         {
-            GD.Print($"{target.UnitName} is already down!");
+            GD.Print($"{target.Stats.UnitName} is already down!");
             return;
         }
 
         int damage = 10; // Simple static damage for now
         target.TakeDamage(damage);
-        GD.Print($"{UnitName} attacks {target.UnitName} for {damage} damage!");
+        GD.Print($"{Stats.UnitName} attacks {target.Stats.UnitName} for {damage} damage!");
     }
 
     public void IncreaseInitiative()
     {
-        Initiative += (100f / Speed); // The faster the unit, the sooner they act again
-        GD.Print($"{UnitName}'s Initiative increased to {Initiative}");
+        Initiative += (100f / Stats.Speed);
+        GD.Print($"{Stats.UnitName}'s Initiative increased to {Initiative}");
     }
 
     public void EndTurn()
     {
-        IncreaseInitiative(); //  Increases Initiative before re-entering the queue
-        OnTurnEnd?.Invoke(this); // Notify BattleManager or FSM
+        IncreaseInitiative();
+        OnTurnEnd?.Invoke(this);
     }
 }

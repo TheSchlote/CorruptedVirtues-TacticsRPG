@@ -13,6 +13,7 @@ public partial class NextTurnState : BattleState
             stateMachine.ChangeState(new EndBattleState(battleManager, stateMachine));
             return;
         }
+        GD.Print($"It's {nextUnit.Stats.UnitName}'s turn! (Team {nextUnit.Team.TeamID})");
 
         if (nextUnit.Team.IsPlayerControlled)
             stateMachine.ChangeState(new PlayerTurnState(battleManager, stateMachine, nextUnit));

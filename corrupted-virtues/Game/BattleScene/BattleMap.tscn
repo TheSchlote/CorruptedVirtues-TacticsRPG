@@ -12,8 +12,8 @@ data = {
 }
 metadata/_editor_floor_ = Vector3(0, 0, 0)
 
-[node name="SpawnPoint" type="Node3D" parent="."]
+[node name="SpawnPoint_Player1" type="Node3D" parent="." groups=["SpawnPoint"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 4)
 
-[node name="SpawnPoint2" type="Node3D" parent="."]
+[node name="SpawnPoint2_Enemy1" type="Node3D" parent="." groups=["SpawnPoint"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 24)

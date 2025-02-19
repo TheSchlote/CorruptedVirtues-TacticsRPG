@@ -3,7 +3,7 @@ using System;
 
 public partial class BattleStateMachine : Node
 {
-    private BattleState currentState;
+    public BattleState currentState;
     private BattleManager battleManager;
 
     public void Initialize(BattleManager manager)

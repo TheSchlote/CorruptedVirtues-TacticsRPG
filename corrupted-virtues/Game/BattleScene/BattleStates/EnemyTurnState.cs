@@ -12,7 +12,7 @@ public partial class EnemyTurnState : BattleState
 
     public override void Enter()
     {
-        GD.Print($"{currentUnit.UnitName}'s turn (Enemy AI)!");
+        GD.Print($"{currentUnit.Stats.UnitName}'s turn (Enemy AI)!");
         EnemyAIController.TakeTurn(currentUnit);
         battleManager.NextTurn();
     }

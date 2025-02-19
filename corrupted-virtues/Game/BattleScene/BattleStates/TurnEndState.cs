@@ -12,7 +12,7 @@ public partial class TurnEndState : BattleState
 
     public override void Enter()
     {
-        GD.Print($"Applying end-of-turn effects for {currentUnit.UnitName}");
+        GD.Print($"Applying end-of-turn effects for {currentUnit.Stats.UnitName}");
         battleManager.NextTurn();
     }
 
