@@ -7,12 +7,21 @@ public partial class NextTurnState : BattleState
 
     public override void Enter()
     {
-        Unit nextUnit = battleManager.turnQueue.GetNextUnit();
-        if (nextUnit == null)
+        // Check if battle should end
+        if (battleManager.turnQueue.OnlyOneTeamRemaining())
         {
             stateMachine.ChangeState(new EndBattleState(battleManager, stateMachine));
             return;
         }
+
+        Unit nextUnit = battleManager.turnQueue.GetNextUnit();
+        if (nextUnit == null)
+        {
+            GD.Print("No unit ready to act. Accumulating AP...");
+            stateMachine.ChangeState(this); // Stay in this state until a unit is ready
+            return;
+        }
+
         GD.Print($"It's {nextUnit.Stats.UnitName}'s turn! (Team {nextUnit.Team.TeamID})");
 
         if (nextUnit.Team.IsPlayerControlled)

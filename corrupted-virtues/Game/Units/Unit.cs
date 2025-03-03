@@ -7,6 +7,8 @@ public partial class Unit : Node3D
     private const float CELL_SIZE = 2f;
 
     [Export] public UnitStats Stats { get; set; } // Assignable in the editor
+    public int ActionPoints { get; private set; } = 0;
+
     private Node3D _visualInstance; // Stores the visual model
 
     public int Health { get;  set; }
@@ -116,15 +118,18 @@ public partial class Unit : Node3D
         GD.Print($"{Stats.UnitName} attacks {target.Stats.UnitName} for {damage} damage!");
     }
 
-    public void IncreaseInitiative()
+    public void AccumulateActionPoints()
     {
-        Initiative += (100f / Stats.Speed);
-        GD.Print($"{Stats.UnitName}'s Initiative increased to {Initiative}");
+        ActionPoints += Stats.Speed;
+    }
+
+    public void SpendActionPoints(int amount)
+    {
+        ActionPoints -= amount;
     }
 
     public void EndTurn()
     {
-        IncreaseInitiative();
         OnTurnEnd?.Invoke(this);
     }
 }

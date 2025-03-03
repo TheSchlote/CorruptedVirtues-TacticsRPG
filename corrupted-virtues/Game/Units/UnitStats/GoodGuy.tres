@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="UnitStats" load_steps=3 format=3 uid="uid://c0qh21y821j0i"]
+
+[ext_resource type="PackedScene" uid="uid://yy22bwycbxpt" path="res://Assets/Imported Assets/KayKit_Prototype_Bits_1.0_EXTRA/Character/Dummy.fbx" id="1_tavpv"]
+[ext_resource type="Script" path="res://Game/Units/UnitStats.cs" id="2_ylbwi"]
+
+[resource]
+script = ExtResource("2_ylbwi")
+UnitName = " Good Unit"
+MaxHealth = 100
+Speed = 15
+UnitVisual = ExtResource("1_tavpv")

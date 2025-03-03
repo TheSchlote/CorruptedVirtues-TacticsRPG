@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bkt0uby72ole7"]
 
 [ext_resource type="Script" path="res://Game/Units/Unit.cs" id="1_7ovr0"]
-[ext_resource type="Resource" uid="uid://c0qh21y821j0i" path="res://Game/Units/UnitStats/Default.tres" id="2_qw2k2"]
+[ext_resource type="Resource" uid="uid://c0qh21y821j0i" path="res://Game/Units/UnitStats/GoodGuy.tres" id="2_qw2k2"]
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_7ovr0")

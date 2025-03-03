@@ -6,6 +6,6 @@ public static class EnemyAIController
     {
         GD.Print($"{enemy.Name} chooses an action...");
         // Simple AI: Move toward player and attack
-        GD.Print($"{enemy.Name} attacks!");
+        GD.Print($"{enemy.Name} skips turn for now!");
     }
 }

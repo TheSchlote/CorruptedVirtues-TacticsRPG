@@ -127,6 +127,7 @@ public partial class BattleManager : Node3D
         }
 
         Unit spawnedUnit = UnitScene.Instantiate<Unit>();
+        spawnedUnit.Name = stats.UnitName;
         spawnedUnit.Position = spawnPosition;
         spawnedUnit.Stats = stats;
         spawnedUnit.Team = team;
@@ -140,6 +141,14 @@ public partial class BattleManager : Node3D
 
     public void NextTurn()
     {
+        // If only one team remains, end battle
+        if (turnQueue.OnlyOneTeamRemaining())
+        {
+            stateMachine.ChangeState(new EndBattleState(this, stateMachine));
+            return;
+        }
+
+        // Otherwise, move to next turn state
         stateMachine.ChangeState(new NextTurnState(this, stateMachine));
     }
 
